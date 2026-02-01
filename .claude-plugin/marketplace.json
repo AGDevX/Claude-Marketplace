@@ -1,0 +1,13 @@
+{
+	"name": "agdevx-claude-marketplace",
+	"owner": {
+		"name": "August F. Geier V"
+	},
+	"plugins": [
+		{
+			"name": "agdevx-toolkit-plugin",
+			"source": "./plugins/agdevx-toolkit-plugin",
+			"description": "Useful skills, hooks, and agents"
+		}
+	]
+}
