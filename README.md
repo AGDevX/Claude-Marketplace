@@ -33,28 +33,27 @@ A collection of useful skills, hooks, and agents to streamline your Claude Code 
 
 ### Features
 
-**Auto-Load Hook**
-
-- Automatically loads core skills when you start a new Claude Code session
-- No manual activation needed - your essential tools are always ready
-
 **Skills Included:**
 
 - **`/read-claude-md`** - Reads your `~/.claude/CLAUDE.md` configuration file
   - Automatically loads your personal Claude instructions at session start
   - Ensures Claude always follows your preferences and coding standards
 
-# Usage
+- **`/pr-summary`** - Generates comprehensive pull request summaries
+  - Analyzes git branch changes and commits
+  - Creates structured PR descriptions with changes categorized by type
+  - Helps you quickly understand what changed and why
+  - Usage: `/pr-summary [target-branch]` (defaults to 'main' if not specified)
 
 ## Using Skills
 
-Once the marketplace is installed, skills are automatically loaded at session start. You can:
+Type `/skill-name` to run a specific skill
 
-1. **Let Claude use them automatically** - Claude will invoke skills proactively when appropriate
-2. **Invoke manually** - Type `/skill-name` to run a specific skill
-   ```
-   /read-claude-md
-   ```
+```
+/read-claude-md
+/pr-summary
+/pr-summary main
+```
 
 ## Managing Plugins
 
