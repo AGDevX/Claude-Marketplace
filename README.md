@@ -33,6 +33,16 @@ A collection of useful skills, hooks, and agents to streamline your Claude Code 
 
 ### Features
 
+**Hooks Included:**
+
+- **`protect-main-branch`** - Prevents accidental modifications to protected branches
+  - Blocks file modifications (Write, Edit, MultiEdit) on main, master, production, prod, and release branches
+  - Blocks dangerous git commands (commit, push, merge, rebase, etc.) on protected branches
+  - Provides smart branch name suggestions based on file context and Jira issue detection
+  - Allows read-only operations (Read, Grep, Glob, BashOutput)
+  - Warns about potentially destructive commands for safety
+  - Automatically triggered on tool use to ensure safe development practices
+
 **Skills Included:**
 
 - **`/read-claude-md`** - Reads your `~/.claude/CLAUDE.md` configuration file
