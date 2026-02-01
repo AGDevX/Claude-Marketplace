@@ -8,6 +8,7 @@ input=$(cat)
 cwd=$(echo "$input" | jq -r '.cwd')
 
 #-- Skills that should ALWAYS be loaded when Claude starts
+#-- These should match the skill directory names in your plugin
 CORE_SKILLS=(
   "read-claude-md"
 )
@@ -22,11 +23,16 @@ Your essential skills are now active:
 skills_loaded=0
 
 for skill in "${CORE_SKILLS[@]}"; do
-  # Try multiple locations
+  #-- Try multiple locations (plugin skills take priority)
   SKILL_FILE=""
 
-  if [[ -f "$HOME/.claude/skills/$skill/SKILL.md" ]]; then
+  #--  Check plugin skills directory first (use $PLUGIN_DIR if available)
+  if [[ -n "$PLUGIN_DIR" ]] && [[ -f "$PLUGIN_DIR/skills/$skill/SKILL.md" ]]; then
+    SKILL_FILE="$PLUGIN_DIR/skills/$skill/SKILL.md"
+  #-- Fall back to user skills
+  elif [[ -f "$HOME/.claude/skills/$skill/SKILL.md" ]]; then
     SKILL_FILE="$HOME/.claude/skills/$skill/SKILL.md"
+  #-- Check project skills
   elif [[ -f "$cwd/.claude/skills/$skill/SKILL.md" ]]; then
     SKILL_FILE="$cwd/.claude/skills/$skill/SKILL.md"
   fi
@@ -35,7 +41,7 @@ for skill in "${CORE_SKILLS[@]}"; do
     continue
   fi
 
-  # Extract basic info from frontmatter
+  #-- Extract basic info from frontmatter
   skill_name=$(awk '/^name:/ {print $2; exit}' "$SKILL_FILE")
   skill_desc=$(awk '/^description:/ {$1=""; print substr($0,2); exit}' "$SKILL_FILE")
 
@@ -47,7 +53,7 @@ for skill in "${CORE_SKILLS[@]}"; do
 done
 
 if [[ $skills_loaded -eq 0 ]]; then
-  # No skills found, exit silently
+  #-- No skills found, exit silently
   exit 0
 fi
 
