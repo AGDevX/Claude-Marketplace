@@ -1,7 +1,7 @@
 {
 	"name": "agdevx-claude-marketplace",
 	"version": "1.0.0",
-	"description": "Claude Code skills, hooks, and agents that I find useful",
+	"description": "Useful skills, hooks, and agents",
 	"author": "August F. Geier V",
 	"homepage": "https://github.com/AGDevX/Claude-Marketplace",
 	"license": "MIT"
