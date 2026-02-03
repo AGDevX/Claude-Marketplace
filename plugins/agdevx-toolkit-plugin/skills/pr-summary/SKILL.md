@@ -1,7 +1,7 @@
 ---
 name: pr-summary
 description: Analyze git branch changes and generate a comprehensive PR summary. Use when creating pull requests or summarizing branch work.
-allowed-tools: Bash, Read, Grep, Glob
+allowed-tools: Bash, Read, Grep, Glob, Skill(copy-to-clipboard)
 disable-model-invocation: true
 argument-hint: [target-branch]
 ---

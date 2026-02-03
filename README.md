@@ -33,27 +33,82 @@ A collection of useful skills, hooks, and agents to streamline your Claude Code 
 
 ### Features
 
-**Skills Included:**
+#### Skills Included
 
-- **`/read-claude-md`** - Reads your `~/.claude/CLAUDE.md` configuration file
-  - Automatically loads your personal Claude instructions at session start
-  - Ensures Claude always follows your preferences and coding standards
+- **`/read-claude-md`** - Reads your `~/.claude/CLAUDE.md` configuration file. Useful after clearing or compacting context.
+  - Loads your personal Claude instructions and preferences
+  - Ensures Claude always follows your coding standards and workflows
+
+- **`/read-git-docs`** - Reads your `~/.claude/docs/git.md` documentation. Useful after clearing or compacting context.
+  - Loads your git workflow guidelines and best practices
+  - Helps Claude follow your team's git conventions
+
+- **`/read-relevant-docs`** - Intelligently loads project-specific documentation. Useful after clearing or compacting context.
+  - Reads relevant docs from `~/.claude/docs/*` based on your project's technology stack
+  - Write MD files containing information about technologies you want Claude to know about when working with them
+  - Name the files after the technology (e.g., .NET_C#.md, JavaScript_TypeScript.md, Docker.md)
+  - Ensures Claude understands your project-specific conventions
 
 - **`/pr-summary`** - Generates comprehensive pull request summaries
   - Analyzes git branch changes and commits
   - Creates structured PR descriptions with changes categorized by type
-  - Helps you quickly understand what changed and why
+  - Automatically copies the summary to your clipboard
   - Usage: `/pr-summary [target-branch]` (defaults to 'main' if not specified)
+
+- **`/copy-to-clipboard`** - Copy content to the system clipboard
+  - Cross-platform support (Windows, macOS, Linux)
+  - Handles multi-line content, code snippets, and command output
+  - Usage: `/copy-to-clipboard [content]` or ask Claude to "copy this to clipboard"
+
+- **`/explain-code`** - Explains code with visual diagrams and analogies
+  - Uses ASCII art diagrams to visualize code flow and structure
+  - Provides everyday analogies to make complex concepts accessible
+  - Includes step-by-step walkthroughs and common gotchas
+  - Perfect for learning codebases or teaching others
+
+#### Hooks Included
+
+- **`protect-main-branch`** - Prevents accidental modifications to protected branches
+  - Blocks direct commits to main, master, production, prod, and release branches
+  - Provides intelligent branch name suggestions based on file context
+  - Extracts Jira issue IDs from git context for branch naming
+  - Prevents dangerous git commands (force push, hard reset, etc.)
+  - Allows read-only operations (Read, Grep, Glob) on protected branches
+
+- **`auto-load-core-skills`** - Automatically loads essential skills at session start
+  - Currently loads `/read-claude-md` automatically when Claude starts
+  - Note: Temporarily disabled pending Claude Code issue resolution
 
 ## Using Skills
 
-Type `/skill-name` to run a specific skill
+Type `/skill-name` to run a specific skill:
 
-```
+```bash
+# Load your personal Claude configuration
 /read-claude-md
+
+# Load your git workflow documentation
+/read-git-docs
+
+# Load project-specific documentation
+/read-relevant-docs
+
+# Generate a PR summary (copies to clipboard)
 /pr-summary
 /pr-summary main
+/pr-summary develop
+
+# Copy content to clipboard
+/copy-to-clipboard "npm install express"
+
+# Explain code with diagrams and analogies
+/explain-code
 ```
+
+You can also ask Claude naturally, and it will use the appropriate skill:
+- "Copy this to my clipboard"
+- "Explain how this authentication flow works"
+- "Read my git docs"
 
 ## Managing Plugins
 
