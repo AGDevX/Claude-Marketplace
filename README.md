@@ -10,6 +10,11 @@ This marketplace provides reusable extensions for Claude Code that add functiona
 - **Skills**: Custom commands you can invoke with `/skill-name`
 - **Plugins**: Bundled collections of hooks, skills, and agents
 
+## Requirements
+
+- Node.js
+- Claude Code
+
 ## Installation
 
 1. Install the marketplace:
@@ -106,6 +111,7 @@ Type `/skill-name` to run a specific skill:
 ```
 
 You can also ask Claude naturally, and it will use the appropriate skill:
+
 - "Copy this to my clipboard"
 - "Explain how this authentication flow works"
 - "Read my git docs"
