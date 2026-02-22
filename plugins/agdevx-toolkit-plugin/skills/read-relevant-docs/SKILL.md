@@ -1,13 +1,28 @@
 ---
 name: read-relevant-docs
 description: Based on the nature of the current project, read the relevant docs at `~/.claude/docs/*`
+allowed-tools: Read, Glob, Grep
 ---
 
-Based on the nature of the current project, read the relevant docs at `~/.claude/docs/*`
+# Load Project-Relevant Documentation
 
-The files in this directory are named after their technology. For example (the list below is just a sample of what you can find in this folder):
+Read documentation from `~/.claude/docs/*` that is relevant to the current project's technology stack.
 
-- .NET_C#.md
-- .Docker.md
-- git.md
-- JavaScript_TypeScript.md
+## How to Determine Relevance
+
+1. **List available docs** by globbing `~/.claude/docs/*.md`
+2. **Identify the project's tech stack** by checking for these markers in the project root:
+   - `package.json` → JavaScript/TypeScript, Node.js, and any frameworks listed in dependencies
+   - `*.csproj`, `*.sln` → .NET / C#
+   - `Dockerfile`, `docker-compose.yml` → Docker
+   - `requirements.txt`, `pyproject.toml`, `setup.py` → Python
+   - `go.mod` → Go
+   - `Cargo.toml` → Rust
+   - `pom.xml`, `build.gradle` → Java
+   - `.github/workflows/` → CI/CD, GitHub Actions
+3. **Match technologies to doc filenames** — doc files are named after their technology (e.g., `JavaScript_TypeScript.md`, `.NET_C#.md`, `Docker.md`)
+4. **Read only the matching docs** — do not read docs for technologies not present in the project
+
+## If No Relevant Docs Exist
+
+State that no matching docs were found for the detected tech stack and list what was detected.

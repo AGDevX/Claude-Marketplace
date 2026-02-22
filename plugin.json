@@ -6,7 +6,18 @@
 				"hooks": [
 					{
 						"type": "command",
-						"command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/protect-main-branch.js",
+						"command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/agdevx-toolkit-plugin/hooks/protect-main-branch.js",
+						"timeout": 10
+					}
+				]
+			}
+		],
+		"SessionStart": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/agdevx-toolkit-plugin/hooks/auto-load-core-skills.js",
 						"timeout": 10
 					}
 				]
