@@ -1,5 +1,30 @@
 {
 	"name": "agdevx-toolkit-plugin",
-	"description": "Useful skills, hooks, and agents",
-	"version": "0.0.1"
+	"description": "Useful skills and hooks",
+	"version": "0.0.1",
+	"hooks": {
+		"PreToolUse": [
+			{
+				"matcher": "Write|Edit|MultiEdit|Bash",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/protect-main-branch.js",
+						"timeout": 10
+					}
+				]
+			}
+		],
+		"SessionStart": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/auto-load-core-skills.js",
+						"timeout": 10
+					}
+				]
+			}
+		]
+	}
 }
