@@ -3,11 +3,55 @@ name: explain-code
 description: Explains code with visual diagrams and analogies. Use when explaining how code works, teaching about a codebase, or when the user asks "how does this work?"
 ---
 
-When explaining code, always include:
+When explaining code, follow this structure:
 
-1. **Start with an analogy**: Compare the code to something from everyday life
-2. **Draw a diagram**: Use ASCII art to show the flow, structure, or relationships
-3. **Walk through the code**: Explain step-by-step what happens
-4. **Highlight a gotcha**: What's a common mistake or misconception?
+## 1. Analogy
+
+Compare the code to something from everyday life. Pick something concrete and relatable.
+
+## 2. Diagram
+
+Use ASCII art to show the flow, structure, or relationships. Always include a diagram.
+
+## 3. Walkthrough
+
+Explain step-by-step what happens, referencing specific lines or functions.
+
+## 4. Gotcha
+
+Highlight a common mistake, misconception, or subtle behavior.
+
+---
 
 Keep explanations conversational. For complex concepts, use multiple analogies.
+
+## Example Output
+
+Given a middleware pipeline:
+
+### Analogy
+> Think of middleware like an airport security line. Each station (middleware) inspects your boarding pass (request), can reject you (send a response), or wave you through to the next station (`next()`). The gate agent (route handler) is always at the end.
+
+### Diagram
+```
+Request
+  │
+  ▼
+┌──────────┐    ┌──────────┐    ┌──────────┐
+│  Logger  │───▶│   Auth   │───▶│  Router  │
+│  next()  │    │  next()  │    │ response │
+└──────────┘    └──────────┘    └──────────┘
+  │                 │
+  │ (logs req)      │ (checks token)
+  │                 │
+  │                 ├── 401 if invalid
+  │                 └── next() if valid
+```
+
+### Walkthrough
+1. Request hits `logger` — logs method and URL, calls `next()`
+2. Request hits `auth` — checks the `Authorization` header ...
+3. ...
+
+### Gotcha
+> Forgetting to call `next()` silently hangs the request. No error, no timeout warning — just a connection that never resolves.

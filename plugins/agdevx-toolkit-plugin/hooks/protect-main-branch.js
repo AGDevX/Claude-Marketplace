@@ -7,7 +7,6 @@
  */
 
 const { execSync } = require('child_process');
-const fs = require('fs');
 
 //-- Read hook input from stdin
 let input = '';
@@ -196,7 +195,7 @@ function main(inputData) {
 	}
 
 	//-- Define safe read-only tools
-	const safeTools = ['Read', 'Grep', 'Glob', 'BashOutput'];
+	const safeTools = ['Read', 'Grep', 'Glob'];
 
 	//-- Check if tool is in safe list
 	if (safeTools.includes(toolName)) {
@@ -260,7 +259,7 @@ Then you can safely run git commands on your feature branch.`;
 		}
 
 		//-- Check for other potentially dangerous commands
-		const dangerousPattern = /rm\s+-rf|>\s*[^>]|sudo/;
+		const dangerousPattern = /\brm\s+-rf\b|\bsudo\b/;
 
 		if (dangerousPattern.test(command)) {
 			const warningMessage = `⚠️  WARNING: You are running a potentially destructive command on '${currentBranch}':

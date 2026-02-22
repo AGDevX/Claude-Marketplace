@@ -83,7 +83,7 @@ This is a required action - invoke these skills now.
  * 3. Project skills directory
  */
 function findSkillFile(skill, cwd) {
-	const pluginDir = process.env.PLUGIN_DIR;
+	const pluginDir = process.env.CLAUDE_PLUGIN_ROOT;
 	const homeDir = os.homedir();
 
 	const searchPaths = [
@@ -108,21 +108,34 @@ function extractSkillInfo(skillFile, defaultName) {
 
 		let name = defaultName;
 		let description = 'No description';
+		let inFrontmatter = false;
 
 		for (const line of lines) {
-			const nameLine = line.trim().match(/^name:\s*(.+)$/);
+			const trimmed = line.trim();
+
+			if (trimmed === '---' && !inFrontmatter) {
+				//-- Opening delimiter
+				inFrontmatter = true;
+				continue;
+			}
+
+			if (trimmed === '---' && inFrontmatter) {
+				//-- Closing delimiter
+				break;
+			}
+
+			if (!inFrontmatter) {
+				continue;
+			}
+
+			const nameLine = trimmed.match(/^name:\s*(.+)$/);
 			if (nameLine) {
 				name = nameLine[1].trim();
 			}
 
-			const descLine = line.trim().match(/^description:\s*(.+)$/);
+			const descLine = trimmed.match(/^description:\s*(.+)$/);
 			if (descLine) {
 				description = descLine[1].trim();
-			}
-
-			//-- Stop after frontmatter (assuming it ends at first non-metadata line)
-			if (line.trim() === '---' && name !== defaultName) {
-				break;
 			}
 		}
 
