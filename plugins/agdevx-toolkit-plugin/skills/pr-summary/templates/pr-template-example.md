@@ -1,42 +1,17 @@
 # Summary
-This PR implements user authentication with JWT tokens and adds password reset functionality. These changes address security requirements from issue #123 and improve the user experience during account recovery.
-
-# Motivation
-We needed to improve our security to protect user data.
+Adds JWT authentication with refresh tokens and a password reset flow via email. Addresses security requirements from #123.
 
 # Breaking Changes
-- Auth header format changed from Bearer to JWT (requires frontend update)
+- Auth header format changed from `Bearer` to `JWT` (requires frontend update)
 
-# Technical Details
-Implemented JWT authentication using HS256 algorithm with 15-minute access tokens and 7-day refresh tokens. Password reset generates a time-limited token sent via email. Added Redis for token blacklisting on logout.
+# Changes
+- **Auth system**: JWT auth with 15-min access tokens, 7-day refresh tokens, Redis-backed token blacklisting on logout
+- **Password reset**: Time-limited token sent via email, full verification flow
+- **Rate limiting**: Added to all auth endpoints
+- **Bug fixes**: Session persistence on page reload, password validation matching requirements
 
-# ✨ Features Added/Updated/Removed
-- JWT-based authentication system with refresh tokens
-- Password reset flow with email verification
-- Rate limiting on auth endpoints
-
-# 🐛 Bugs Fixed
-- Fixed session persistence issue on page reload
-- Corrected password validation to match requirements
-
-# 📝 Documentation Updates
-- Updated API docs with new auth endpoints
-- Added authentication flow diagram
+# Approach
+Chose HS256 for JWT signing — simpler than RS256 and sufficient since we control both issuer and consumer. Redis for token blacklisting keeps logout instant without waiting for token expiry.
 
 # Testing
-- Added unit tests for token generation and validation
-- Integration tests for full auth flow
-- Tested password reset email delivery in staging
-
-# Files Changed
-- `src/auth/jwt.ts` - JWT token generation and validation logic
-- `src/routes/auth.ts` - New auth endpoints (login, logout, refresh, reset)
-- `src/middleware/auth.ts` - Authentication middleware
-- `tests/auth.test.ts` - Comprehensive auth test suite
-
-# Commits
-- feat: implement JWT authentication system
-- feat: add password reset functionality
-- fix: session persistence on page reload
-- docs: update API documentation
-- test: add auth integration tests
+Unit tests for token logic, integration tests for full auth flow, password reset email verified in staging.
