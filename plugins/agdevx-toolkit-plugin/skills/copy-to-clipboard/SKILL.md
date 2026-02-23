@@ -1,8 +1,7 @@
 ---
 name: copy-to-clipboard
 description: Copy content to the system clipboard. Use when the user asks to copy text, code, or command output to clipboard.
-allowed-tools: Bash
-argument-hint: [content-to-copy]
+argument-hint: content-to-copy
 ---
 
 # Clipboard Operations
@@ -12,16 +11,19 @@ Copy content to the system clipboard using platform-specific commands.
 ## Platform-Specific Commands
 
 ### Windows
+
 ```bash
 echo "content" | clip
 ```
 
 ### macOS
+
 ```bash
 echo "content" | pbcopy
 ```
 
 ### Linux
+
 ```bash
 # Using xclip (most common)
 echo "content" | xclip -selection clipboard
@@ -38,6 +40,7 @@ echo "content" | xsel --clipboard
    - For multi-line content, use heredoc syntax
 
 2. **Heredoc for multi-line content:**
+
    ```bash
    cat <<'EOF' | clip
    Line 1
@@ -47,6 +50,7 @@ echo "content" | xsel --clipboard
    ```
 
 3. **Piping command output:**
+
    ```bash
    # Copy command output directly
    git status | clip
@@ -66,16 +70,19 @@ echo "content" | xsel --clipboard
 ## Examples
 
 ### Copy a single line:
+
 ```bash
 echo 'npm install express' | clip
 ```
 
 ### Copy file contents:
+
 ```bash
 cat package.json | clip
 ```
 
 ### Copy multi-line code:
+
 ```bash
 cat <<'EOF' | clip
 function hello() {
@@ -85,6 +92,7 @@ EOF
 ```
 
 ### Copy command output:
+
 ```bash
 git log --oneline -10 | clip
 ```
@@ -92,6 +100,7 @@ git log --oneline -10 | clip
 ## Confirmation
 
 After copying to clipboard, confirm with a message like:
+
 - "Copied to clipboard."
 - "Copied `<command>` to clipboard."
 - "Copied <N> lines to clipboard."
@@ -99,9 +108,11 @@ After copying to clipboard, confirm with a message like:
 ## Platform Detection
 
 To detect the platform, check the current OS:
+
 - Windows: `clip` is always available
 - macOS: `pbcopy` is always available
 - Linux: May need to install `xclip` or `xsel`
 
 If clipboard command fails, inform the user and suggest installation:
+
 - Linux: `sudo apt-get install xclip` or `sudo yum install xclip`
