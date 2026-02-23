@@ -1,7 +1,6 @@
 ---
 name: read-relevant-docs
 description: Based on the nature of the current project, read the relevant docs at `~/.claude/docs/*`
-allowed-tools: Read, Glob, Grep
 ---
 
 # Load Project-Relevant Documentation
