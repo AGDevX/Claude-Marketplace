@@ -1,7 +1,6 @@
 ---
 name: copy-to-clipboard
 description: Copy content to the system clipboard. Use when the user asks to copy text, code, or command output to clipboard.
-argument-hint: content-to-copy
 ---
 
 # Clipboard Operations

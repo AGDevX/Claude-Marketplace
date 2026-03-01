@@ -1,8 +1,6 @@
 ---
 name: pr-summary
 description: Analyze git branch changes and generate a comprehensive PR summary. Use when creating pull requests or summarizing branch work.
-disable-model-invocation: true
-argument-hint: target-branch
 ---
 
 # PR Summary Generator

@@ -1,7 +1,10 @@
 {
 	"name": "agdevx-toolkit-plugin",
-	"description": "Useful skills and hooks",
+	"description": "Developer toolkit — hooks and skills for safer, smoother Claude Code workflows",
 	"version": "0.0.1",
+	"author": {
+		"name": "August F. Geier V"
+	},
 	"hooks": {
 		"PreToolUse": [
 			{
@@ -11,6 +14,18 @@
 						"type": "command",
 						"command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/protect-main-branch.js",
 						"timeout": 10
+					}
+				]
+			}
+		],
+		"PostToolUse": [
+			{
+				"matcher": "Write|Edit|MultiEdit|Bash",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/delete-nul-files.js",
+						"timeout": 5
 					}
 				]
 			}
