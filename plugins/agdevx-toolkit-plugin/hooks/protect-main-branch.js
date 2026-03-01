@@ -229,7 +229,7 @@ function main(inputData) {
 		const command = toolInput.command || '';
 
 		//-- Check for dangerous git commands
-		const dangerousGitPattern = /git\s+(commit|push|merge|rebase|reset\s+--hard|branch\s+-[dD])/;
+		const dangerousGitPattern = /git\s+(commit|push|merge|rebase|reset\s+--hard|branch\s+-D)/;
 
 		if (dangerousGitPattern.test(command)) {
 			const errorMessage = `🚫 BLOCKED: Cannot run git modification commands on '${currentBranch}'
