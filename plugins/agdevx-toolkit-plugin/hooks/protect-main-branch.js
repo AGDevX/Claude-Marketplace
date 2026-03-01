@@ -187,6 +187,36 @@ function main(inputData) {
 	//-- Define protected branches
 	const protectedBranches = ['main', 'master', 'production', 'prod', 'release'];
 
+	//-- Block deletion of protected branches from ANY branch
+	if (toolName === 'Bash') {
+		const command = toolInput.command || '';
+		const branchDeleteMatch = command.match(/git\s+branch\s+-[dD]\s+(.+)/);
+		if (branchDeleteMatch) {
+			const targetBranch = branchDeleteMatch[1].trim();
+			if (protectedBranches.includes(targetBranch)) {
+				const errorMessage = `🚫 BLOCKED: Cannot delete protected branch '${targetBranch}'
+
+⚠️  Command attempted:
+   ${command}
+
+Protected branches (${protectedBranches.join(', ')}) cannot be deleted.`;
+
+				const output = {
+					decision: 'block',
+					reason: `🚫 Cannot delete protected branch '${targetBranch}'`,
+					hookSpecificOutput: {
+						hookEventName: 'PreToolUse',
+						permissionDecision: 'deny',
+						permissionDecisionReason: errorMessage
+					}
+				};
+
+				console.log(JSON.stringify(output));
+				process.exit(2);
+			}
+		}
+	}
+
 	//-- Check if current branch is protected
 	const isProtected = protectedBranches.includes(currentBranch);
 
