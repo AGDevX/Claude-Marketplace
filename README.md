@@ -1,19 +1,14 @@
 # Claude Marketplace
 
-A custom-developed collection of plugins, hooks, and skills for [Claude Code](https://claude.com/claude-code).
+Claude Code extensions by AGDevX — skills and hooks for safer, smoother workflows.
 
 ## What is This?
 
-This marketplace provides reusable extensions for Claude Code that add functionality through:
+This marketplace provides reusable extensions for [Claude Code](https://claude.com/claude-code) that add functionality through:
 
 - **Skills**: Slash commands you invoke with `/skill-name`
-- **Hooks**: Automated actions triggered by events (e.g., before a tool runs)
+- **Hooks**: Automated actions triggered by events (e.g., before/after a tool runs)
 - **Plugins**: Bundled collections of skills and hooks
-
-## Requirements
-
-- Node.js
-- Claude Code
 
 ## Installation
 
@@ -34,11 +29,11 @@ claude plugin install agdevx-toolkit-plugin
 **Version:** 0.0.1
 **Location:** `./plugins/agdevx-toolkit-plugin`
 
-A collection of useful skills and hooks to streamline your Claude Code experience.
+Developer toolkit — hooks and skills for safer, smoother Claude Code workflows.
 
 ### Skills
 
-- **`/pr-summary [target-branch]`** — Generates a concise PR summary from your branch changes, grouped by area. Copies to clipboard. Defaults to comparing against `main`.
+- **`/pr-summary [target-branch]`** — Analyzes branch changes and generates a concise PR summary ready to paste into GitHub/Azure DevOps. Copies to clipboard. Defaults to comparing against `main`.
 
 - **`/explain-code`** — Explains code with ASCII diagrams, everyday analogies, step-by-step walkthroughs, and common gotchas.
 
@@ -48,13 +43,20 @@ A collection of useful skills and hooks to streamline your Claude Code experienc
 
 ### Hooks
 
-- **`protect-main-branch`** *(PreToolUse)* — Prevents accidental modifications to protected branches (`main`, `master`, `production`, `prod`, `release`). Blocks writes and dangerous git commands, suggests branch names based on file context, and extracts Jira issue IDs for branch naming. Read-only operations are allowed.
+- **`protect-main-branch`** *(PreToolUse)* — Prevents accidental modifications to protected branches (`main`, `master`, `production`, `prod`, `release`). Blocks file writes and dangerous git commands when on a protected branch. Also blocks deletion of protected branches from any branch. Suggests branch names based on file context and extracts Jira issue IDs for branch naming. Read-only operations are allowed.
+
+- **`delete-nul-files`** *(PostToolUse)* — Automatically detects and removes `NUL` files that Windows sometimes creates when a reserved device name is inadvertently used as a filename. Runs after `Write`, `Edit`, `MultiEdit`, and `Bash` operations.
+
+## Prerequisites
+
+- Node.js (for hook scripts)
+- [Claude Code](https://claude.com/claude-code)
 
 ## Managing Plugins
 
 The marketplace configuration is in `.claude-plugin/marketplace.json`. Plugins are registered there and automatically discovered by Claude Code.
 
-# License
+## License
 
 MIT License - see [LICENSE](LICENSE) for details
 
@@ -62,4 +64,4 @@ Copyright (c) 2026 AGDevX
 
 ---
 
-**Note:** This marketplace is designed for [Claude Code](https://claude.com/claude-code). Make sure you have Claude Code installed to use these plugins.
+**Note:** This marketplace is designed for [Claude Code](https://claude.com/claude-code). Make sure you have Claude Code and Node.js installed to use these plugins.
