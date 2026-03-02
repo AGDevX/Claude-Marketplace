@@ -1,6 +1,6 @@
 # Claude Marketplace
 
-Claude Code extensions by AGDevX — skills and hooks for safer, smoother workflows.
+tClaude Code extensions by AGDevX — skills and hooks for safer, smoother workflows.
 
 ## What is This?
 
@@ -43,9 +43,9 @@ Developer toolkit — hooks and skills for safer, smoother Claude Code workflows
 
 ### Hooks
 
-- **`protect-main-branch`** *(PreToolUse)* — Prevents accidental modifications to protected branches (`main`, `master`, `production`, `prod`, `release`). Blocks file writes and dangerous git commands when on a protected branch. Also blocks deletion of protected branches from any branch. Suggests branch names based on file context and extracts Jira issue IDs for branch naming. Read-only operations are allowed.
+- **`protect-main-branch`** _(PreToolUse)_ — Prevents accidental modifications to protected branches (`main`, `master`, `production`, `prod`, `release`). Blocks file writes and dangerous git commands when on a protected branch. Also blocks deletion of protected branches from any branch. Suggests branch names based on file context and extracts Jira issue IDs for branch naming. Read-only operations are allowed.
 
-- **`delete-nul-files`** *(PostToolUse)* — Automatically detects and removes `NUL` files that Windows sometimes creates when a reserved device name is inadvertently used as a filename. Runs after `Write`, `Edit`, `MultiEdit`, and `Bash` operations.
+- **`delete-nul-files`** _(PostToolUse)_ — Automatically detects and removes `NUL` files that Windows sometimes creates when a reserved device name is inadvertently used as a filename. Runs after `Write`, `Edit`, `MultiEdit`, and `Bash` operations.
 
 ## Prerequisites
 
