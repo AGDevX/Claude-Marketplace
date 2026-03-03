@@ -12,7 +12,8 @@ Copy content to the system clipboard using platform-specific commands.
 ### Windows
 
 ```bash
-echo "content" | clip
+# Pipe content through PowerShell for proper Unicode support (emdashes, etc.)
+echo "content" | powershell.exe -Command '$input | Set-Clipboard'
 ```
 
 ### macOS
@@ -41,7 +42,22 @@ echo "content" | xsel --clipboard
 2. **Heredoc for multi-line content:**
 
    ```bash
-   cat <<'EOF' | clip
+   # Windows
+   cat <<'EOF' | powershell.exe -Command '$input | Set-Clipboard'
+   Line 1
+   Line 2
+   Line 3
+   EOF
+
+   # macOS
+   cat <<'EOF' | pbcopy
+   Line 1
+   Line 2
+   Line 3
+   EOF
+
+   # Linux
+   cat <<'EOF' | xclip -selection clipboard
    Line 1
    Line 2
    Line 3
@@ -51,9 +67,14 @@ echo "content" | xsel --clipboard
 3. **Piping command output:**
 
    ```bash
-   # Copy command output directly
-   git status | clip
-   cat file.txt | clip
+   # Windows
+   git status | powershell.exe -Command '$input | Set-Clipboard'
+
+   # macOS
+   git status | pbcopy
+
+   # Linux
+   git status | xclip -selection clipboard
    ```
 
 4. **When to use clipboard:**
@@ -71,19 +92,48 @@ echo "content" | xsel --clipboard
 ### Copy a single line:
 
 ```bash
-echo 'npm install express' | clip
+# Windows
+echo 'npm install express' | powershell.exe -Command '$input | Set-Clipboard'
+
+# macOS
+echo 'npm install express' | pbcopy
+
+# Linux
+echo 'npm install express' | xclip -selection clipboard
 ```
 
 ### Copy file contents:
 
 ```bash
-cat package.json | clip
+# Windows
+cat package.json | powershell.exe -Command '$input | Set-Clipboard'
+
+# macOS
+cat package.json | pbcopy
+
+# Linux
+cat package.json | xclip -selection clipboard
 ```
 
 ### Copy multi-line code:
 
 ```bash
-cat <<'EOF' | clip
+# Windows
+cat <<'EOF' | powershell.exe -Command '$input | Set-Clipboard'
+function hello() {
+  console.log("Hello, world!");
+}
+EOF
+
+# macOS
+cat <<'EOF' | pbcopy
+function hello() {
+  console.log("Hello, world!");
+}
+EOF
+
+# Linux
+cat <<'EOF' | xclip -selection clipboard
 function hello() {
   console.log("Hello, world!");
 }
@@ -93,7 +143,14 @@ EOF
 ### Copy command output:
 
 ```bash
-git log --oneline -10 | clip
+# Windows
+git log --oneline -10 | powershell.exe -Command '$input | Set-Clipboard'
+
+# macOS
+git log --oneline -10 | pbcopy
+
+# Linux
+git log --oneline -10 | xclip -selection clipboard
 ```
 
 ## Confirmation
@@ -108,7 +165,7 @@ After copying to clipboard, confirm with a message like:
 
 To detect the platform, check the current OS:
 
-- Windows: `clip` is always available
+- Windows: `powershell.exe` with `Set-Clipboard` (handles Unicode correctly; `clip` mangles non-ASCII characters)
 - macOS: `pbcopy` is always available
 - Linux: May need to install `xclip` or `xsel`
 
