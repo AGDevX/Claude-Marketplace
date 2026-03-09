@@ -11,9 +11,11 @@ Copy content to the system clipboard using platform-specific commands.
 
 ### Windows
 
+Piping from bash to PowerShell mangles Unicode (UTF-8 bytes decoded as Windows-1252). Use a temp file to preserve encoding:
+
 ```bash
-# Pipe content through PowerShell for proper Unicode support (emdashes, etc.)
-echo "content" | powershell.exe -Command '$input | Set-Clipboard'
+# Write content to temp file, copy with explicit UTF-8 encoding, clean up
+printf '%s' "content" > /tmp/cb_tmp.txt && powershell.exe -Command "Set-Clipboard -Value (Get-Content -Path '$(cygpath -w /tmp/cb_tmp.txt)' -Raw -Encoding UTF8)" && rm /tmp/cb_tmp.txt
 ```
 
 ### macOS
@@ -42,12 +44,13 @@ echo "content" | xsel --clipboard
 2. **Heredoc for multi-line content:**
 
    ```bash
-   # Windows
-   cat <<'EOF' | powershell.exe -Command '$input | Set-Clipboard'
+   # Windows (write heredoc to temp file, then copy)
+   cat <<'EOF' > /tmp/cb_tmp.txt
    Line 1
    Line 2
    Line 3
    EOF
+   powershell.exe -Command "Set-Clipboard -Value (Get-Content -Path '$(cygpath -w /tmp/cb_tmp.txt)' -Raw -Encoding UTF8)" && rm /tmp/cb_tmp.txt
 
    # macOS
    cat <<'EOF' | pbcopy
@@ -67,8 +70,8 @@ echo "content" | xsel --clipboard
 3. **Piping command output:**
 
    ```bash
-   # Windows
-   git status | powershell.exe -Command '$input | Set-Clipboard'
+   # Windows (capture to temp file, then copy)
+   git status > /tmp/cb_tmp.txt && powershell.exe -Command "Set-Clipboard -Value (Get-Content -Path '$(cygpath -w /tmp/cb_tmp.txt)' -Raw -Encoding UTF8)" && rm /tmp/cb_tmp.txt
 
    # macOS
    git status | pbcopy
@@ -93,7 +96,7 @@ echo "content" | xsel --clipboard
 
 ```bash
 # Windows
-echo 'npm install express' | powershell.exe -Command '$input | Set-Clipboard'
+printf '%s' 'npm install express' > /tmp/cb_tmp.txt && powershell.exe -Command "Set-Clipboard -Value (Get-Content -Path '$(cygpath -w /tmp/cb_tmp.txt)' -Raw -Encoding UTF8)" && rm /tmp/cb_tmp.txt
 
 # macOS
 echo 'npm install express' | pbcopy
@@ -106,7 +109,7 @@ echo 'npm install express' | xclip -selection clipboard
 
 ```bash
 # Windows
-cat package.json | powershell.exe -Command '$input | Set-Clipboard'
+cp package.json /tmp/cb_tmp.txt && powershell.exe -Command "Set-Clipboard -Value (Get-Content -Path '$(cygpath -w /tmp/cb_tmp.txt)' -Raw -Encoding UTF8)" && rm /tmp/cb_tmp.txt
 
 # macOS
 cat package.json | pbcopy
@@ -119,11 +122,12 @@ cat package.json | xclip -selection clipboard
 
 ```bash
 # Windows
-cat <<'EOF' | powershell.exe -Command '$input | Set-Clipboard'
+cat <<'EOF' > /tmp/cb_tmp.txt
 function hello() {
   console.log("Hello, world!");
 }
 EOF
+powershell.exe -Command "Set-Clipboard -Value (Get-Content -Path '$(cygpath -w /tmp/cb_tmp.txt)' -Raw -Encoding UTF8)" && rm /tmp/cb_tmp.txt
 
 # macOS
 cat <<'EOF' | pbcopy
@@ -144,7 +148,7 @@ EOF
 
 ```bash
 # Windows
-git log --oneline -10 | powershell.exe -Command '$input | Set-Clipboard'
+git log --oneline -10 > /tmp/cb_tmp.txt && powershell.exe -Command "Set-Clipboard -Value (Get-Content -Path '$(cygpath -w /tmp/cb_tmp.txt)' -Raw -Encoding UTF8)" && rm /tmp/cb_tmp.txt
 
 # macOS
 git log --oneline -10 | pbcopy
@@ -165,7 +169,7 @@ After copying to clipboard, confirm with a message like:
 
 To detect the platform, check the current OS:
 
-- Windows: `powershell.exe` with `Set-Clipboard` (handles Unicode correctly; `clip` mangles non-ASCII characters)
+- Windows: Write to temp file, then use `powershell.exe` with `Get-Content -Encoding UTF8` and `Set-Clipboard`. Piping directly from bash to PowerShell mangles non-ASCII characters due to code page mismatch.
 - macOS: `pbcopy` is always available
 - Linux: May need to install `xclip` or `xsel`
 
