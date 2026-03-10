@@ -235,6 +235,14 @@ Protected branches (${protectedBranches.join(', ')}) cannot be deleted.`;
 	//-- Handle file modification tools
 	if (['Write', 'Edit', 'MultiEdit'].includes(toolName)) {
 		const filePath = toolInput.file_path || '';
+
+		//-- Skip protection for files outside this repository
+		const repoRoot = runCommand('git rev-parse --show-toplevel').replace(/\\/g, '/');
+		const normalizedFilePath = filePath.replace(/\\/g, '/');
+		if (repoRoot && !normalizedFilePath.startsWith(repoRoot)) {
+			process.exit(0);
+		}
+
 		const jiraIssue = extractJiraIssue();
 		const suggestedBranch = suggestBranchName(filePath, jiraIssue);
 		const errorMessage = generateErrorMessage(currentBranch, suggestedBranch, filePath);
