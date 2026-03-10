@@ -20,14 +20,14 @@ The user will do two things: **add items** and **ask questions**. Handle them di
 
 When the user provides an item to track:
 
-- Create a task using TaskCreate
-- Clean up the wording into an actionable task title (preserve the user's intent)
-- Use the description field for any extra detail the user provides
+- Keep the list in conversation context — do NOT use any tools
+- Clean up the wording into an actionable item (preserve the user's intent)
 - Confirm briefly and ask "What's next?" or similar
 - Ask a clarifying question if something is genuinely ambiguous
+- When showing the list, use a numbered format so items are easy to reference
 
 **Hard rules for adding items:**
-- Do NOT read files or explore the codebase — use ONLY context already loaded
+- Do NOT call any tools — no TaskCreate, no file writes, no exploration
 - Do NOT execute or begin working on any task
 - Do NOT suggest next steps or improvements
 
