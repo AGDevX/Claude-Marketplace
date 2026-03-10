@@ -1,6 +1,6 @@
 # Claude Marketplace
 
-tClaude Code extensions by AGDevX — skills and hooks for safer, smoother workflows.
+Claude Code extensions by AGDevX — skills and hooks for safer, smoother workflows.
 
 ## What is This?
 
@@ -26,7 +26,7 @@ claude plugin install agdevx-toolkit-plugin
 
 ## AGDevX Toolkit Plugin
 
-**Version:** 0.0.1
+**Version:** 0.0.4
 **Location:** `./plugins/agdevx-toolkit-plugin`
 
 Developer toolkit — hooks and skills for safer, smoother Claude Code workflows.
@@ -41,9 +41,11 @@ Developer toolkit — hooks and skills for safer, smoother Claude Code workflows
 
 - **`/read-relevant-docs`** — Detects your project's tech stack and loads matching documentation from `~/.claude/docs/*`. Useful after clearing or compacting context.
 
+- **`/list`** — Collaborative note-taking mode for capturing task items, brain dumps, and collected issues without acting on them. Tracks items in-context for speed — no file writes until you're ready.
+
 ### Hooks
 
-- **`protect-main-branch`** _(PreToolUse)_ — Prevents accidental modifications to protected branches (`main`, `master`, `production`, `prod`, `release`). Blocks file writes and dangerous git commands when on a protected branch. Also blocks deletion of protected branches from any branch. Suggests branch names based on file context and extracts Jira issue IDs for branch naming. Read-only operations are allowed.
+- **`protect-main-branch`** _(PreToolUse)_ — Prevents accidental modifications to protected branches (`main`, `master`, `production`, `prod`, `release`). Blocks file writes and dangerous git commands when on a protected branch. Also blocks deletion of protected branches from any branch. Suggests branch names based on file context and extracts Jira issue IDs for branch naming. Read-only operations are allowed. Files outside the repository are automatically excluded from protection.
 
 - **`delete-nul-files`** _(PostToolUse)_ — Automatically detects and removes `NUL` files that Windows sometimes creates when a reserved device name is inadvertently used as a filename. Runs after `Write`, `Edit`, `MultiEdit`, and `Bash` operations.
 

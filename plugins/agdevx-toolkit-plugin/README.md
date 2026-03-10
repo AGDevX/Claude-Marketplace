@@ -1,12 +1,12 @@
 # agdevx-toolkit-plugin
 
-Branch protection hooks, NUL file cleanup, PR summaries, code explanation, and clipboard utilities for Claude Code.
+Branch protection hooks, NUL file cleanup, PR summaries, code explanation, clipboard utilities, and task list capture for Claude Code.
 
 ## Hooks
 
 ### protect-main-branch (PreToolUse)
 
-Prevents accidental modifications to protected branches (`main`, `master`, `production`, `prod`, `release`). Blocks file writes, dangerous git commands, and branch deletion on protected branches. Provides context-aware branch name suggestions with Jira issue ID integration.
+Prevents accidental modifications to protected branches (`main`, `master`, `production`, `prod`, `release`). Blocks file writes, dangerous git commands, and branch deletion on protected branches. Provides context-aware branch name suggestions with Jira issue ID integration. Files outside the repository are automatically excluded from protection.
 
 ### delete-nul-files (PostToolUse)
 
@@ -29,6 +29,10 @@ Copies content to the system clipboard. Cross-platform (Windows, macOS, Linux).
 ### /read-relevant-docs
 
 Detects the project's tech stack and loads matching documentation from `~/.claude/docs/`.
+
+### /list
+
+Collaborative note-taking mode for capturing task items, brain dumps, and collected issues without acting on them. Tracks items in-context for speed.
 
 ## Prerequisites
 
